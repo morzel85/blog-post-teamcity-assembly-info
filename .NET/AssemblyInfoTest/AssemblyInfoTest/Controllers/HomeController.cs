@@ -2,6 +2,7 @@
 using DataAccess;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -15,7 +16,12 @@ namespace AssemblyInfoTest.Controllers
         {
             ViewBag.CoreAssemblyInfo = SomeCoreClass.GetAssemblyInfo();
             ViewBag.DataAccessAssemblyInfo = SomeDataAccessClass.GetAssemblyInfo();
-            ViewBag.WebAssemblyInfo = Assembly.GetExecutingAssembly().FullName;
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string webAsseblyInfo = string.Format("Full Name = \"{0}\"; Informational Version = \"{1}\"",
+                                    assembly.FullName, FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion);
+            ViewBag.WebAssemblyInfo = webAsseblyInfo;
+
             return View();
         }
 
